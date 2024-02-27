@@ -6,6 +6,7 @@ export default function Header({onChange}) {
     <>
       <div className="flex justify-center">
         <h1 className={`text-3xl font-bold uppercase pt-10 ${colorgradient}`}>Mix-ink</h1>
+        <a href="https://github.com/oonois/mix-ink">github</a>
       </div>
       {/* <div>
 
