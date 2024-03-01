@@ -1,7 +1,7 @@
 
-const colorgradient = 'bg-gradient-to-r from-emerald-500 to-violet-500 inline-block text-transparent bg-clip-text'
 
-export default function Header({onChange}) {
+
+export default function Header({onChange, colorgradient}) {
   return (
     <>
       <div className="flex justify-center">

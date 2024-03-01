@@ -16,31 +16,35 @@ function App(){
     }
     return newRGB
   }
-
+  
+  const [slots, setSlots] = useState([null,null,null,null])
   const [colorPack, setColorPack] = useState([])
   if(colorPack.length === 0) {
     handleColorPack()
+    setSlots([null,null,null,null])
   }
 
-  // const [newColor1, setNewColor1] = useState(()=>randomRGB())
-  // const [newColor2, setNewColor2] = useState(()=>randomRGB())
-  // const [newColor3, setNewColor3] = useState(()=>randomRGB())
-  // const [newColor4, setNewColor4] = useState(()=>randomRGB())
-  // const [resultado, setResultado] = useState(()=>createnewColor(newColor1,newColor2,newColor3,newColor4))
+  const colorgradient = 'bg-gradient-to-r from-emerald-500 to-violet-500 inline-block text-transparent bg-clip-text'
 
   function handleColorPack(){
     const color1 = randomRGB()
     const color2 = randomRGB()
     const color3 = randomRGB()
     const color4 = randomRGB()
+    const color5 = randomRGB()
+    const color6 = randomRGB()
+    const color7 = randomRGB()
     const colorResult = createnewColor(color1,color2,color3)
+    //const color5 = (color1 + randomRGB())/2
+    setSlots([null,null,null,null])
     const packcolor = [
-      color1, color2, color3, color4, colorResult
+      color1, color2, color3, color4, color5, color6, color7, colorResult
     ]
     setColorPack(packcolor)
     console.log(packcolor)
     return packcolor
   }
+
 
   function createnewColor(col1,col2,col3){
     // let redfinal = Math.round(((col1.red*50)/100)+((col2.red*25)/100)+((col3.red*19)/100)+((col4.red*6)/100));
@@ -67,15 +71,14 @@ function App(){
   return (
     <>
     <Header 
+      colorgradient = {colorgradient}
     />
     <ColorScreen 
       colorPack = {colorPack}
-      // resultado = {resultado}
-      // newColor1 = {newColor1}
-      // newColor2 = {newColor2}
-      // newColor3 = {newColor3}
-      // newColor4 = {newColor4}
+      slots = {slots}
+      setSlots = {setSlots}
       onChange = {handleColorPack}
+      colorgradient = {colorgradient}
     />
     </>
   )
