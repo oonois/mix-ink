@@ -17,6 +17,10 @@ function App(){
     return newRGB
   }
   
+  const [count, setCount] = useState(10)
+  const [misatge, setMisatge] = useState('')
+  const [checkmate, setcheckmate] = useState(false)
+
   const [slots, setSlots] = useState([null,null,null,null])
   const [colorPack, setColorPack] = useState([])
   if(colorPack.length === 0) {
@@ -41,6 +45,11 @@ function App(){
       color1, color2, color3, color4, color5, color6, color7, colorResult
     ]
     setColorPack(packcolor)
+    setSlots([null,null,null,null])
+    setMisatge('')
+    setcheckmate(false)
+    setCount(10)
+    
     console.log(packcolor)
     return packcolor
   }
@@ -79,6 +88,12 @@ function App(){
       setSlots = {setSlots}
       onChange = {handleColorPack}
       colorgradient = {colorgradient}
+      misatge = {misatge}
+      setMisatge = {setMisatge}
+      checkmate = {checkmate}
+      setcheckmate = {setcheckmate}
+      count = {count}
+      setCount = {setCount}
     />
     </>
   )

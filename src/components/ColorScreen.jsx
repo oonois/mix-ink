@@ -9,7 +9,7 @@ let mezcla = [0,1,2,3,4,5,6];
 barajarColores(mezcla)
 
 
-export default function ColorScreen({colorPack, onChange, slots, setSlots, colorgradient}){
+export default function ColorScreen({colorPack, onChange, slots, setSlots, colorgradient, misatge, setMisatge, checkmate, setcheckmate, count, setCount}){
   
 
   function handleSlots(color) {
@@ -152,15 +152,14 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
       colorPack[2].blue
     );
 
-    const [count, setCount] = useState(5)
+    
 
     function refreshPage() {
     
       window.location.reload(false);
     }
 
-    const [misatge, setMisatge] = useState('')
-    const [checkmate, setcheckmate] = useState(false)
+    
     
   return (
     <>
