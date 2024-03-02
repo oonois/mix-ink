@@ -2,13 +2,8 @@
 import { useState } from "react";
 
 
-function barajarColores(array) {
-  array.sort(() => Math.random() - 0.5);
-}
-let mezcla = [0,1,2,3,4,5,6];
-barajarColores(mezcla)
-
-export default function ColorScreen({colorPack, onChange, slots, setSlots, colorgradient, misatge, setMisatge, checkmate, setcheckmate, count, setCount}){
+export default function ColorScreen({colorPack, onChange, slots, setSlots, colorgradient, misatge, setMisatge, checkmate, setcheckmate, count, setCount, thecolor, baraja}){
+  
   
   const [bg60, setbg60] = useState('#242424')
   const [bg25, setbg25] = useState('#242424')
@@ -140,47 +135,51 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
   let mirror15 = slots[3]
 
   
-    const thecolor = convertRGBtoHex(
-      colorPack[7].red,
-      colorPack[7].green,
-      colorPack[7].blue
+    const therealcolor = convertRGBtoHex(
+      thecolor.red,
+      thecolor.green,
+      thecolor.blue
     );
+    
+   
+    
     const firstColor = convertRGBtoHex(
-      colorPack[mezcla[0]].red,
-      colorPack[mezcla[0]].green,
-      colorPack[mezcla[0]].blue
+      colorPack[baraja[0]].red,
+      colorPack[baraja[0]].green,
+      colorPack[baraja[0]].blue
     );
+    console.log(firstColor)
     const secondColor = convertRGBtoHex(
-      colorPack[mezcla[1]].red,
-      colorPack[mezcla[1]].green,
-      colorPack[mezcla[1]].blue
+      colorPack[baraja[1]].red,
+      colorPack[baraja[1]].green,
+      colorPack[baraja[1]].blue
     );
     const thirdColor = convertRGBtoHex(
-      colorPack[mezcla[2]].red,
-      colorPack[mezcla[0]].green,
-      colorPack[mezcla[2]].blue
+      colorPack[baraja[2]].red,
+      colorPack[baraja[2]].green,
+      colorPack[baraja[2]].blue
     );
     const fourthColor = convertRGBtoHex(
-      colorPack[mezcla[3]].red,
-      colorPack[mezcla[3]].green,
-      colorPack[mezcla[3]].blue
+      colorPack[baraja[3]].red,
+      colorPack[baraja[3]].green,
+      colorPack[baraja[3]].blue
     );
     const fifthColor = convertRGBtoHex(
-      colorPack[mezcla[4]].red,
-      colorPack[mezcla[4]].green,
-      colorPack[mezcla[4]].blue
+      colorPack[baraja[4]].red,
+      colorPack[baraja[4]].green,
+      colorPack[baraja[4]].blue
     );
     const sixthColor = convertRGBtoHex(
-      colorPack[mezcla[5]].red,
-      colorPack[mezcla[5]].green,
-      colorPack[mezcla[5]].blue
+      colorPack[baraja[5]].red,
+      colorPack[baraja[5]].green,
+      colorPack[baraja[5]].blue
     );
     const seventhColor = convertRGBtoHex(
-      colorPack[mezcla[6]].red,
-      colorPack[mezcla[6]].green,
-      colorPack[mezcla[6]].blue
+      colorPack[baraja[6]].red,
+      colorPack[baraja[6]].green,
+      colorPack[baraja[6]].blue
     );
-      
+baraja[6]      
     const firtsCheck = convertRGBtoHex(
       colorPack[0].red,
       colorPack[0].green,
@@ -199,28 +198,40 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
 
     
 
-    function refreshPage() {
-    
-      window.location.reload(false);
-    }
-
-    
-    
   return (
     <>
       <div className="flex flex-col items-center justify-center pt-5 gap-3">
         <button
-          className="text-2xl bg-gradient-to-r from-emerald-500 to-violet-500 inline-block text-transparent hover:text-white bg-clip-text m-5 "
+          className="text-2xl bg-gradient-to-r from-emerald-500 to-violet-500 inline-block text-transparent hover:text-white bg-clip-text mx-5 "
           onClick={onChange}
         >
           New Game
-        </button>
+          </button>
+          <div className="flex w-full justify-center opacity-0 hover:opacity-100 ">
+          <div
+            
+            style={{ backgroundColor: firtsCheck }}
+            className={`w-10 md:w-14 h-10 md:h-14  border border-zinc-700 rounded-lg  `}>
+          </div>
+          <div
+            
+            style={{ backgroundColor: secondCheck }}
+            className={`w-10 md:w-14 h-10 md:h-14  border border-zinc-700 rounded-lg  `}>
+          </div>
+          <div
+            
+            style={{ backgroundColor: thirdCheck }}
+            className={`w-10 md:w-14 h-10 md:h-14  border border-zinc-700 rounded-lg  `}>
+          </div>
+          </div>
+          
+
         <div className="flex flex-row-reverse justify-center items-center gap-2"
         
         >
         <div
           style={{ 
-            backgroundColor: thecolor
+            backgroundColor: therealcolor
           }}
           className={`w-44 md:w-56 h-24 md:h-44 rounded-lg border border-zinc-700`}
         ></div>
@@ -236,7 +247,7 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
             <p className={colorgradient}>Game Over</p>
             <button
             className='text-2xl hover:text-emerald-600 transition-colors'
-            onClick={refreshPage}
+            onClick={onChange}
             >Next game</button>
             </div>
           </div>
@@ -245,14 +256,14 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
           {checkmate === true ? (
           <div 
           style={{ 
-            backgroundColor: thecolor
+            backgroundColor: therealcolor
           }}
           className="w-full h-full absolute  flex justify-center items-center text-6xl font-bold">
           <div className="flex-col">
           <p className={colorgradient}>YOU WIN</p>
           <button
           className='text-2xl hover:text-emerald-600 transition-colors'
-          onClick={refreshPage}
+          onClick={onChange}
           >Next game</button>
           </div>
         </div>
@@ -305,13 +316,13 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
       </div>
       <div className="flex justify-center pt-5 ">
         <div className="md:w-1/2 flex justify-around w-2/3 md:pt-10">
+          
           <button
             onClick={() => handleSlots(firstColor)}
             style={{ backgroundColor: firstColor }}
             className={`w-10 md:w-14 h-10 md:h-14 border border-zinc-700 rounded-lg `}
-          >
-            {/* {colorPack[0].red}.{colorPack[0].green}.{colorPack[0].blue} */}
-          </button>
+          ></button>
+
           <button
             onClick={() => handleSlots(secondColor)}
             style={{ backgroundColor: secondColor }}

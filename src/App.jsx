@@ -5,6 +5,13 @@ import Header from "./components/Header"
 
 function App(){
   
+  function shuffle(input) {
+    input.sort(() => Math.random() - 0.5);
+  }
+  
+  const [baraja, setbaraja] = useState([0,1,2,3,4,5,6])
+  
+  
   const colorgradient = 'bg-gradient-to-r from-emerald-500 to-violet-500 inline-block text-transparent bg-clip-text'
   const [count, setCount] = useState(10)
   const [misatge, setMisatge] = useState('')
@@ -12,11 +19,16 @@ function App(){
   
   const [slots, setSlots] = useState([null,null,null,null])
   const [colorPack, setColorPack] = useState([])
+  const [thecolor, setThecolor] = useState({})
 
   if(colorPack.length === 0) {
     handleColorPack()
     setSlots([null,null,null,null])
+    setMisatge('')
+    setcheckmate(false)
+    setCount(10)
     console.log(colorPack)
+    
   }
 
   function handleColorPack(){
@@ -25,16 +37,9 @@ function App(){
     for(let i=0; i <v; i++){
       
       packcolor.push(randomRGB())
-    }
-    packcolor.push(createnewColor(packcolor))
-    setSlots([null,null,null,null])
+    } 
     setColorPack(packcolor)
-    setMisatge('')
-    setcheckmate(false)
-    setCount(10)
-
-    console.log(packcolor)
-    
+    setThecolor(createnewColor(packcolor))
   }
 
   function createnewColor(color){
@@ -49,7 +54,14 @@ function App(){
       blue: bluefinal
     }
     console.log(rgbresult)
+    const prevbaraja = baraja
+    shuffle(prevbaraja)
+    setbaraja(prevbaraja)
     return rgbresult
+  }
+
+  function refreshPage() {
+    window.location.reload(false);
   }
 
   function randomRGB(){
@@ -75,7 +87,7 @@ function App(){
       colorPack = {colorPack}
       slots = {slots}
       setSlots = {setSlots}
-      onChange = {handleColorPack}
+      onChange = {refreshPage}
       colorgradient = {colorgradient}
       misatge = {misatge}
       setMisatge = {setMisatge}
@@ -83,6 +95,9 @@ function App(){
       setcheckmate = {setcheckmate}
       count = {count}
       setCount = {setCount}
+      thecolor = {thecolor}
+      baraja = {baraja}
+      
     />
     </>
   )
