@@ -124,6 +124,9 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
       const prevSlots = slots
       setSlots([prevSlots[0],null,null,null])
       setMisatge('15% wrong hole')
+    }else{
+      const prevSlots = slots
+      setSlots([prevSlots[0],null,null,null])
     }
     let prevcount = count
     setCount(prevcount-1)   
@@ -212,7 +215,7 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
         >
           New Game
         </button>
-        <div className="flex flex-col md:flex-row-reverse justify-center items-center gap-2"
+        <div className="flex flex-row-reverse justify-center items-center gap-2"
         
         >
         <div
@@ -224,7 +227,7 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
         <div
          
           style={{ backgroundColor: mirror }}
-          className={`w-32 md:w-56 h-20 md:h-44 rounded-lg border border-zinc-700`}
+          className={`w-44 md:w-56 h-24 md:h-44 rounded-lg border border-zinc-700`}
         ></div>
         
         {(count < 1) ? (
