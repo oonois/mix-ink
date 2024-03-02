@@ -8,32 +8,26 @@ function barajarColores(array) {
 let mezcla = [0,1,2,3,4,5,6];
 barajarColores(mezcla)
 
-
 export default function ColorScreen({colorPack, onChange, slots, setSlots, colorgradient, misatge, setMisatge, checkmate, setcheckmate, count, setCount}){
   
+  const [bg60, setbg60] = useState('#242424')
+  const [bg25, setbg25] = useState('#242424')
+  const [bg15, setbg15] = useState('#242424')
 
   function handleSlots(color) {
-   
     if(mirror60 === null){
       const prevSlots = slots
       setSlots([prevSlots[0],color,prevSlots[2], prevSlots[3]])
+      setbg60(color)
     }else if (mirror25 === null){
       const prevSlots = slots
       setSlots([prevSlots[0],prevSlots[1],color , prevSlots[3]])
+      setbg25(color)
     } else if (mirror15 === null){
       const prevSlots = slots
       setSlots([prevSlots[0],prevSlots[1], prevSlots[2], color])
+      setbg15(color)
     }   
-
-
-    // if(mirror25 === null){
-    //   console.log('mirror60')
-    //   mirror60 = color
-    // }else if(mirror15 === null){
-    //   console.log('suma2')
-    //   mirror15 = color
-    //   mirror = '' 
-    // }
   }
   
   function colorToHex(color){
@@ -45,47 +39,95 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
     return "#" + colorToHex(r) + colorToHex(g) + colorToHex(b);
   }
 
-  function checkColors(slots, color1, color2, color3){
-  
-   if(slots[1] === color1 && slots[2] === color2 && slots[3] === color3){
-    setcheckmate(true)
-   }else if(slots[1] === color1 && slots[2] === color2){
-    setMisatge('60% i 25%')
-    const prevSlots = slots 
-    setSlots([prevSlots[0],prevSlots[1],prevSlots[2],null])
-   }else if(slots[1] === color1){
-    setMisatge('60%')
-    const prevSlots = slots 
-    setSlots([prevSlots[0],prevSlots[1],null,null])
-   }else if(slots[2] === color2){
-    setMisatge('25%')
-    const prevSlots = slots 
-    setSlots([prevSlots[0],null,prevSlots[2],null])
-   }else if(slots[3] === color3){
-    setMisatge('15%')
-    const prevSlots = slots 
-    setSlots([prevSlots[0],null,null,prevSlots[3]])
-   }else if(slots[1] === color1 || slots[1] === color2 || slots[1] === color3){
-    setMisatge('60% wrong hole')
-    const prevSlots = slots 
-    setSlots([prevSlots[0],null,null,null])
-   }else if(slots[2] === color1 || slots[2] === color2 || slots[2] === color3){
-    setMisatge('25% wrong hole')
-    const prevSlots = slots 
-    setSlots([prevSlots[0],null,null,null])
-    return slots[2]
-   }else if(slots[3] === color1 || slots[3] === color2 || slots[3] === color3){
-    setMisatge('15% wrong hole')
-    const prevSlots = slots 
-    setSlots([prevSlots[0],null,null,null])
-   }else {
-    const prevSlots = slots 
-    setSlots([prevSlots[0],null,null,null])
-   }
-   let prevcount = count
-   setCount(prevcount-1)
-      
+  function sumarColores(color, a, b) {
+    let redfinal = Math.round((color[a].red + color[b].red)/2)
+    let greenfinal = Math.round((color[a].green + color[b].green)/2)
+    let bluefinal = Math.round((color[a].blue + color[b].blue)/2)
+    const rgbresult = {
+      red: redfinal,
+      green: greenfinal,
+      blue: bluefinal
+    }
+    return rgbresult
   }
+
+
+  function checkColors(slots, color1, color2, color3){
+    if (slots[1] === color1 && slots[2] === color2 && slots[3] === color3){
+      setcheckmate(true)
+    }else if(slots[1] === color1 && slots[2] === color2){
+      setMisatge('60% i 25%')
+      const prevSlots = slots
+      let x = sumarColores(colorPack,0,1) 
+      prevSlots[0] = convertRGBtoHex(x.red, x.green, x.blue)
+      setSlots([prevSlots[0],prevSlots[1],prevSlots[2],null])
+    }else if(slots[2] === color2 && slots[3] === color3) {
+      setMisatge('25% i 15%')
+      const prevSlots = slots
+      let x = sumarColores(colorPack,1,2) 
+      prevSlots[0] = convertRGBtoHex(x.red, x.green, x.blue)
+      setSlots([prevSlots[0],null,prevSlots[2],prevSlots[3]])
+    }else if (slots[1] === color1 && slots[3] === color3) {
+      setMisatge('60% i 15%')
+      const prevSlots = slots
+      let x = sumarColores(colorPack,0,2) 
+      prevSlots[0] = convertRGBtoHex(x.red, x.green, x.blue)
+      setSlots([prevSlots[0],prevSlots[1],null,prevSlots[3]])
+    }else if(slots[1]=== color1) {
+      setMisatge('60%')
+      const prevSlots = slots
+      setSlots([prevSlots[0],prevSlots[1],null,null])
+      if(slots[2]===color3 || slots[3]===color2){
+        if(slots[2]===color3 && slots[3]===color2){
+          setMisatge('60% correcto, 25% y 15% porcentajes erroneos')
+        }else if(slots[2]===color3){
+          setMisatge('60% bien, 25% porcentaje erroneo')
+        }else {
+          setMisatge('60% bien, 15% porcentaje erroneo')
+        }
+      }
+    }else if(slots[2]=== color2){
+      setMisatge('25%')
+      const prevSlots = slots
+      setSlots([prevSlots[0],null,prevSlots[2],null])
+      if(slots[1]===color3 || slots[3]===color1){
+        if(slots[1]===color3 && slots[3]===color1){
+          setMisatge('25% correcto, 60% y 15% porcentajes erroneos')
+        }else if(slots[1]===color3){
+          setMisatge('25% bien, 60% porcentaje erroneo')
+        }else {
+          setMisatge('25% bien, 15% porcentaje erroneo')
+        }
+      }
+    }else if(slots[3]=== color3){
+      setMisatge('15%')
+      const prevSlots = slots
+      setSlots([prevSlots[0],null,null,prevSlots[3]])
+      if(slots[1]===color2 || slots[2]===color1){
+        if(slots[1]===color2 && slots[2]===color1){
+          setMisatge('15% correcto, 60% y 25% porcentajes erroneos')
+        }else if(slots[1]===color2){
+          setMisatge('15% bien, 25% porcentaje erroneo')
+        }else {
+          setMisatge('15% bien, 60% porcentaje erroneo')
+        }
+      }
+    }else if(slots[1]===color2 || slots[1] === color3) {
+      const prevSlots = slots
+      setSlots([prevSlots[0],null,null,null])
+      setMisatge('60% wrong hole')
+    }else if(slots[2]===color1 || slots[2] === color3){
+      const prevSlots = slots
+      setSlots([prevSlots[0],null,null,null])
+      setMisatge('25% wrong hole')
+    }else if(slots[3]===color1 || slots[3] === color2){
+      const prevSlots = slots
+      setSlots([prevSlots[0],null,null,null])
+      setMisatge('15% wrong hole')
+    }
+    let prevcount = count
+    setCount(prevcount-1)   
+   }
   
   
 
@@ -179,11 +221,12 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
           }}
           className={`w-44 md:w-56 h-24 md:h-44 rounded-lg border border-zinc-700`}
         ></div>
-        <button
-          onClick={()=>checkColors(slots,firtsCheck, secondCheck, thirdCheck)}
+        <div
+         
           style={{ backgroundColor: mirror }}
           className={`w-32 md:w-56 h-20 md:h-44 rounded-lg border border-zinc-700`}
-        >intentos {count} <p>{misatge}</p></button>
+        ></div>
+        
         {(count < 1) ? (
           <div className="w-full h-full absolute bg-gray-800 flex justify-center items-center text-6xl font-bold">
             <div className="flex-col">
@@ -212,11 +255,21 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
         </div>
           ) : ''}
         </div>
+        <div className="bg-slate-600 rounded-lg m-2 p-3">
+        <button 
+         className={`text-2xl uppercase ${colorgradient} hover:text-slate-300`}
+          onClick={()=>checkColors(slots,firtsCheck, secondCheck, thirdCheck)}
+        >comprobar  </button>
+        </div>
+        <p>intentos restantes: {count}</p>
+        <p>{misatge}</p>
         <div className="flex pt-5 w-2/3 justify-evenly">
         <div>
           <p 
-          
-          className="text-center">60%</p>
+            style={{ 
+              backgroundColor: bg60
+            }}
+          className="text-center rounded-md mb-2">60%</p>
           <div
             
             style={{ backgroundColor: mirror60 }}
@@ -224,14 +277,22 @@ export default function ColorScreen({colorPack, onChange, slots, setSlots, color
           </div>
         </div>  
         <div>
-          <p className="text-center">25%</p>
+          <p 
+            style={{ 
+              backgroundColor: bg25
+            }}
+          className="text-center rounded-md mb-2">25%</p>
           <div
             style={{ backgroundColor: mirror25 }}
             className={`w-20 md:w-32 h-20 md:h-32  border border-zinc-700 rounded-lg`}>
           </div>
         </div> 
         <div>
-          <p className="text-center">15%</p>
+          <p 
+          style={{ 
+            backgroundColor: bg15
+          }}
+          className="text-center rounded-md mb-2">15%</p>
           <div
             style={{ backgroundColor: mirror15 }}
             className={`w-20 md:w-32 h-20 md:h-32  border border-zinc-700 rounded-lg`}>

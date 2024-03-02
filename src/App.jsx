@@ -4,6 +4,53 @@ import Header from "./components/Header"
 
 
 function App(){
+  
+  const colorgradient = 'bg-gradient-to-r from-emerald-500 to-violet-500 inline-block text-transparent bg-clip-text'
+  const [count, setCount] = useState(10)
+  const [misatge, setMisatge] = useState('')
+  const [checkmate, setcheckmate] = useState(false)
+  
+  const [slots, setSlots] = useState([null,null,null,null])
+  const [colorPack, setColorPack] = useState([])
+
+  if(colorPack.length === 0) {
+    handleColorPack()
+    setSlots([null,null,null,null])
+    console.log(colorPack)
+  }
+
+  function handleColorPack(){
+    let v = 7
+    const packcolor = []
+    for(let i=0; i <v; i++){
+      
+      packcolor.push(randomRGB())
+    }
+    packcolor.push(createnewColor(packcolor))
+    setSlots([null,null,null,null])
+    setColorPack(packcolor)
+    setMisatge('')
+    setcheckmate(false)
+    setCount(10)
+
+    console.log(packcolor)
+    
+  }
+
+  function createnewColor(color){
+    
+    let redfinal = Math.round(((color[0].red*60)/100)+((color[1].red*25)/100)+((color[2].red*15)/100));
+    let greenfinal = Math.round(((color[0].green*60)/100)+((color[1].green*25)/100)+((color[2].green*15)/100));
+    let bluefinal = Math.round(((color[0].blue*60)/100)+((color[1].blue*25)/100)+((color[2].blue*15)/100));
+    
+     const rgbresult = {
+      red: redfinal,
+      green: greenfinal,
+      blue: bluefinal
+    }
+    console.log(rgbresult)
+    return rgbresult
+  }
 
   function randomRGB(){
     let newred = Math.floor(Math.random() * 256)
@@ -17,71 +64,13 @@ function App(){
     return newRGB
   }
   
-  const [count, setCount] = useState(10)
-  const [misatge, setMisatge] = useState('')
-  const [checkmate, setcheckmate] = useState(false)
-
-  const [slots, setSlots] = useState([null,null,null,null])
-  const [colorPack, setColorPack] = useState([])
-  if(colorPack.length === 0) {
-    handleColorPack()
-    setSlots([null,null,null,null])
-  }
-
-  const colorgradient = 'bg-gradient-to-r from-emerald-500 to-violet-500 inline-block text-transparent bg-clip-text'
-
-  function handleColorPack(){
-    const color1 = randomRGB()
-    const color2 = randomRGB()
-    const color3 = randomRGB()
-    const color4 = randomRGB()
-    const color5 = randomRGB()
-    const color6 = randomRGB()
-    const color7 = randomRGB()
-    const colorResult = createnewColor(color1,color2,color3)
-    //const color5 = (color1 + randomRGB())/2
-    setSlots([null,null,null,null])
-    const packcolor = [
-      color1, color2, color3, color4, color5, color6, color7, colorResult
-    ]
-    setColorPack(packcolor)
-    setSlots([null,null,null,null])
-    setMisatge('')
-    setcheckmate(false)
-    setCount(10)
-    
-    console.log(packcolor)
-    return packcolor
-  }
-
-
-  function createnewColor(col1,col2,col3){
-    // let redfinal = Math.round(((col1.red*50)/100)+((col2.red*25)/100)+((col3.red*19)/100)+((col4.red*6)/100));
-    // console.log(redfinal)
-    // let greenfinal = Math.round(((col1.green*50)/100)+((col2.green*25)/100)+((col3.green*19)/100)+((col4.green*6)/100));
-    // console.log(greenfinal)
-    // let bluefinal = Math.round(((col1.blue*50)/100)+((col2.blue*25)/100)+((col3.blue*19)/100)+((col4.blue*6)/100));
-    // console.log(bluefinal)
-    let redfinal = Math.round(((col1.red*60)/100)+((col2.red*25)/100)+((col3.red*15)/100));
-    let greenfinal = Math.round(((col1.green*60)/100)+((col2.green*25)/100)+((col3.green*15)/100));
-    let bluefinal = Math.round(((col1.blue*60)/100)+((col2.blue*25)/100)+((col3.blue*15)/100));
-    console.log(redfinal)
-    console.log(greenfinal)
-    console.log(bluefinal)
-     const rgbresult = {
-      red: redfinal,
-      green: greenfinal,
-      blue: bluefinal
-    }
-    console.log(rgbresult)
-    return rgbresult
-  }
-  
   return (
     <>
     <Header 
       colorgradient = {colorgradient}
     />
+  
+
     <ColorScreen 
       colorPack = {colorPack}
       slots = {slots}
